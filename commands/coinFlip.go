@@ -7,6 +7,7 @@ import (
 	"github.com/Insprill/discord-casino/gambling"
 	"github.com/Insprill/discord-casino/util"
 	"github.com/bwmarrin/discordgo"
+	"math"
 	"strconv"
 )
 
@@ -29,6 +30,8 @@ func flipCoin(s *discordgo.Session, m *discordgo.MessageCreate, args []string) {
 		return
 	}
 
+	balBefore := player.Balance
+
 	won, err := gambling.FlipCoin(player, betAmount)
 
 	if errors.Is(err, errs.NoMoney) {
@@ -36,9 +39,36 @@ func flipCoin(s *discordgo.Session, m *discordgo.MessageCreate, args []string) {
 		return
 	}
 
+	amountChanged := int64(math.Abs(float64(player.Balance - balBefore)))
+	lostToLoan := &discordgo.MessageEmbedField{
+		Name:   "Amount Lost to Loan",
+		Value:  "$" + util.ToString(int64(math.Abs(float64(betAmount-amountChanged)))),
+		Inline: false,
+	}
+	loanSizeField := &discordgo.MessageEmbedField{
+		Name:   "Loan Amount",
+		Value:  "$" + util.ToString(player.Loan),
+		Inline: false,
+	}
+	loanInterestField := &discordgo.MessageEmbedField{
+		Name:   "Loan Interest",
+		Value:  util.ToString(casino.GetLoanPercentage(player)) + "%",
+		Inline: false,
+	}
+
 	if won {
-		s.ChannelMessageSend(m.ChannelID, "Heads, You won $"+util.ToString(betAmount)+" losing "+util.ToString(casino.GetLoanPercentage(player))+"% to loan interest. You now have $"+util.ToString(player.Balance))
+		embed := &discordgo.MessageEmbed{
+			Title:       "You won!",
+			Description: "You won $" + util.ToString(amountChanged) + ".",
+			Fields:      []*discordgo.MessageEmbedField{loanSizeField, loanInterestField, lostToLoan},
+		}
+		s.ChannelMessageSendEmbed(m.ChannelID, embed)
 	} else {
-		s.ChannelMessageSend(m.ChannelID, "Tails, You lost $"+util.ToString(betAmount)+". You now have $"+util.ToString(player.Balance))
+		embed := &discordgo.MessageEmbed{
+			Title:       "You lost.",
+			Description: "You lost $" + util.ToString(amountChanged) + ".",
+			Fields:      []*discordgo.MessageEmbedField{loanSizeField, loanInterestField},
+		}
+		s.ChannelMessageSendEmbed(m.ChannelID, embed)
 	}
 }
