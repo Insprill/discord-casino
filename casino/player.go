@@ -37,7 +37,6 @@ func RepayLoan(player *Player, amount int64) error {
 }
 
 func AddMoneyFromWin(player *Player, amount int64) {
-	println(int64(float64(amount) * player.LoanInterest))
 	player.Balance += int64(float64(amount) * player.LoanInterest)
 	IncreaseLoanInterest(player, 0.05)
 }
