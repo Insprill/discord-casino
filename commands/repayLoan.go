@@ -38,5 +38,5 @@ func repayLoan(s *discordgo.Session, m *discordgo.MessageCreate, args []string) 
 		return
 	}
 
-	s.ChannelMessageSend(m.ChannelID, "Successfully re-payed $"+util.ToString(amount)+" off your loan! You now have $"+util.ToString(player.Balance)+" and owe another $"+util.ToString(player.Loan)+".")
+	s.ChannelMessageSend(m.ChannelID, "Successfully payed $"+util.ToString(amount)+" off your loan! You now have $"+util.ToString(player.Balance)+" and owe another $"+util.ToString(player.Loan)+".")
 }
