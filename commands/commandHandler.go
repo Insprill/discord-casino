@@ -33,6 +33,11 @@ func Handle(s *discordgo.Session, m *discordgo.MessageCreate) {
 		{
 			giveMoney(s, m, args)
 		}
+
+	case "removemoney":
+		{
+			removeMoney(s, m, args)
+		}
 	case "coinflip":
 		{
 			flipCoin(s, m, args)
