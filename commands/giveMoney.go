@@ -14,14 +14,26 @@ func giveMoney(s *discordgo.Session, m *discordgo.MessageCreate, args []string) 
 		return
 	}
 
-	amount, err := strconv.ParseInt(args[1], 10, 64)
+	if len(args) < 3 {
+		s.ChannelMessageSend(m.ChannelID, "You must provide a target and an amount to give!")
+		return
+	}
+
+	if len(m.Mentions) == 0 {
+		s.ChannelMessageSend(m.ChannelID, "You must provide a target by mentioning them!")
+		return
+	}
+
+	target := m.Mentions[0]
+
+	amount, err := strconv.ParseInt(args[2], 10, 64)
 	if err != nil {
 		s.ChannelMessageSend(m.ChannelID, "Invalid amount "+args[1])
 		return
 	}
 
-	player := casino.GetPlayer(m.Author)
+	player := casino.GetPlayer(target)
 	player.Balance += amount
 
-	s.ChannelMessageSend(m.ChannelID, "You now have $"+util.ToString(player.Balance))
+	s.ChannelMessageSend(m.ChannelID, "Successfully gave "+target.Username+" $"+util.ToString(amount)+".")
 }
