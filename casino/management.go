@@ -55,10 +55,9 @@ func GetPlayerById(userId string) *Player {
 	if _, ok := players[userId]; ok {
 		return players[userId]
 	} else {
-		players[userId] = &Player{
-			ID: userId,
-		}
-		return players[userId]
+		player := CreatePlayer(userId)
+		players[userId] = player
+		return player
 	}
 }
 

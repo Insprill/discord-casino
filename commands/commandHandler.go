@@ -25,6 +25,22 @@ func Handle(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	switch strings.ToLower(args[0]) {
+	case "loaninfo":
+		{
+			loanInfo(s, m, args)
+		}
+	case "takeloan":
+		{
+			takeLoan(s, m, args)
+		}
+	case "repayloan":
+		{
+			repayLoan(s, m, args)
+		}
+	case "declarebankruptcy":
+		{
+			declareBankruptcy(s, m, args)
+		}
 	case "balance":
 		{
 			showBalance(s, m, args)
