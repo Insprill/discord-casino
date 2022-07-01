@@ -1,0 +1,6 @@
+* text=auto eol=lf
+# Force Batch files to CRLF
+*.bat eol=crlf -text
+
+# Java sources
+*.go          text diff=go
