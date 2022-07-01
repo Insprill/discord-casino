@@ -10,6 +10,8 @@ import (
 
 var players = map[string]*Player{}
 
+//region IO
+
 func Save() {
 	marshal, err := json.Marshal(players)
 	if err != nil {
@@ -47,12 +49,14 @@ func Load() {
 	println("Successfully loaded user data")
 }
 
+//endregion
+
 func GetPlayerById(userId string) *Player {
 	if _, ok := players[userId]; ok {
 		return players[userId]
 	} else {
 		players[userId] = &Player{
-			userId, 0,
+			ID: userId,
 		}
 		return players[userId]
 	}
