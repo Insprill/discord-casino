@@ -24,7 +24,7 @@ func Handle(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	switch args[0] {
+	switch strings.ToLower(args[0]) {
 	case "balance":
 		{
 			showBalance(s, m, args)
