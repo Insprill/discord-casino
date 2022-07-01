@@ -47,7 +47,7 @@ func RemoveMoneyFromLoss(player *Player, amount int64) {
 }
 
 func IncreaseLoanInterest(player *Player, amount float64) {
-	player.LoanInterest = math.Max(0, math.Min(player.LoanInterest-amount, 1))
+	player.LoanInterest = math.Max(0, math.Min(player.LoanInterest-amount, 0.95))
 }
 
 func GetLoanPercentage(player *Player) int64 {
