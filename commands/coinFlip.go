@@ -1,10 +1,9 @@
 package commands
 
 import (
-	"errors"
 	"github.com/Insprill/discord-casino/casino"
-	"github.com/Insprill/discord-casino/errs"
 	"github.com/Insprill/discord-casino/gambling"
+	"github.com/Insprill/discord-casino/status"
 	"github.com/Insprill/discord-casino/util"
 	"github.com/bwmarrin/discordgo"
 	"math"
@@ -32,9 +31,9 @@ func flipCoin(s *discordgo.Session, m *discordgo.MessageCreate, args []string) {
 
 	balBefore := player.Balance
 
-	won, err := gambling.FlipCoin(player, betAmount)
+	won, stat := gambling.FlipCoin(player, betAmount)
 
-	if errors.Is(err, errs.NoMoney) {
+	if stat == status.NoMoney {
 		s.ChannelMessageSend(m.ChannelID, "You don't have enough money! If you're out of money, you can declare bankruptcy.")
 		return
 	}

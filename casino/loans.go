@@ -1,7 +1,7 @@
 package casino
 
 import (
-	"github.com/Insprill/discord-casino/errs"
+	"github.com/Insprill/discord-casino/status"
 	"math"
 )
 
@@ -9,11 +9,12 @@ func TakeLoan(player *Player, amount int64) {
 	player.Balance += amount
 	player.Loan += amount
 	TryIncreaseLoanInterest(player, 0.05)
+	return status.Ok
 }
 
-func RepayLoan(player *Player, amount int64) error {
+func RepayLoan(player *Player, amount int64) int8 {
 	if !CheckBalance(player, amount) {
-		return errs.NoMoney
+		return status.NoMoney
 	}
 	player.Balance -= amount
 	player.Loan -= amount
@@ -21,7 +22,7 @@ func RepayLoan(player *Player, amount int64) error {
 		player.Loan = 0
 		player.LoanInterest = 1
 	}
-	return nil
+	return status.Ok
 }
 
 func TryIncreaseLoanInterest(player *Player, amount float64) {

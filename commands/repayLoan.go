@@ -1,9 +1,8 @@
 package commands
 
 import (
-	"errors"
 	"github.com/Insprill/discord-casino/casino"
-	"github.com/Insprill/discord-casino/errs"
+	"github.com/Insprill/discord-casino/status"
 	"github.com/Insprill/discord-casino/util"
 	"github.com/bwmarrin/discordgo"
 	"strconv"
@@ -32,8 +31,8 @@ func repayLoan(s *discordgo.Session, m *discordgo.MessageCreate, args []string) 
 		return
 	}
 
-	err = casino.RepayLoan(player, amount)
-	if errors.Is(err, errs.NoMoney) {
+	stat := casino.RepayLoan(player, amount)
+	if stat == status.NoMoney {
 		s.ChannelMessageSend(m.ChannelID, "You don't have enough money to do that!")
 		return
 	}
