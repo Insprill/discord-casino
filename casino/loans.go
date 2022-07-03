@@ -7,7 +7,7 @@ import (
 
 var (
 	MaxLoan     int64 = 10_000
-	MaxInterest       = 0.05
+	MaxInterest       = 0.15
 )
 
 func TakeLoan(player *Player, amount int64) int8 {
