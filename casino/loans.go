@@ -44,6 +44,7 @@ func GetLoanPercentage(player *Player) int64 {
 
 func DeclareBankruptcy(player *Player) {
 	player.Balance = 0
+	player.Loan = 0
 	player.LoanInterest = 1
 	TakeLoan(player, 50)
 }
