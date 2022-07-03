@@ -25,6 +25,10 @@ func Handle(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	switch strings.ToLower(args[0]) {
+	case "info":
+		{
+			userInfo(s, m, args)
+		}
 	case "loaninfo":
 		{
 			loanInfo(s, m, args)
