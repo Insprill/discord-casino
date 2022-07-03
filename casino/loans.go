@@ -5,7 +5,14 @@ import (
 	"math"
 )
 
-func TakeLoan(player *Player, amount int64) {
+var (
+	MaxLoan int64 = 10_000
+)
+
+func TakeLoan(player *Player, amount int64) int8 {
+	if player.Loan >= MaxLoan {
+		return status.MaxLoan
+	}
 	player.Balance += amount
 	player.Loan += amount
 	TryIncreaseLoanInterest(player, 0.05)

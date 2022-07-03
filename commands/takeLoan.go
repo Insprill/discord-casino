@@ -2,6 +2,7 @@ package commands
 
 import (
 	"github.com/Insprill/discord-casino/casino"
+	"github.com/Insprill/discord-casino/status"
 	"github.com/Insprill/discord-casino/util"
 	"github.com/bwmarrin/discordgo"
 	"strconv"
@@ -22,7 +23,11 @@ func takeLoan(s *discordgo.Session, m *discordgo.MessageCreate, args []string) {
 
 	player := casino.GetPlayer(m.Author)
 
-	casino.TakeLoan(player, amount)
+	stat := casino.TakeLoan(player, amount)
+	if stat == status.MaxLoan {
+		s.ChannelMessageSend(m.ChannelID, "You've reaced the maximum loan amount of $"+util.ToString(casino.MaxLoan)+"!")
+		return
+	}
 
 	s.ChannelMessageSend(m.ChannelID, "Successfully took out a $"+util.ToString(amount)+" loan! You now have $"+util.ToString(player.Balance))
 }
