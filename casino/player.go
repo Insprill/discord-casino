@@ -20,7 +20,7 @@ func CheckBalance(player *Player, amount int64) bool {
 func TakeLoan(player *Player, amount int64) {
 	player.Balance += amount
 	player.Loan += amount
-	IncreaseLoanInterest(player, 0.05)
+	TryIncreaseLoanInterest(player, 0.05)
 }
 
 func RepayLoan(player *Player, amount int64) error {
@@ -42,11 +42,13 @@ func AddMoneyFromWin(player *Player, amount int64) {
 
 func RemoveMoneyFromLoss(player *Player, amount int64) {
 	player.Balance -= amount
-	IncreaseLoanInterest(player, 0.10)
+	TryIncreaseLoanInterest(player, 0.10)
 }
 
-func IncreaseLoanInterest(player *Player, amount float64) {
-	player.LoanInterest = math.Max(0, math.Min(player.LoanInterest-amount, 0.95))
+func TryIncreaseLoanInterest(player *Player, amount float64) {
+	if player.Loan <= 0 {
+		player.LoanInterest = math.Max(0, math.Min(player.LoanInterest-amount, 0.95))
+	}
 }
 
 func GetLoanPercentage(player *Player) int64 {
