@@ -6,7 +6,8 @@ import (
 )
 
 var (
-	MaxLoan int64 = 10_000
+	MaxLoan     int64 = 10_000
+	MaxInterest       = 0.05
 )
 
 func TakeLoan(player *Player, amount int64) int8 {
@@ -34,7 +35,7 @@ func RepayLoan(player *Player, amount int64) int8 {
 
 func TryIncreaseLoanInterest(player *Player, amount float64) {
 	if player.Loan > 0 {
-		player.LoanInterest = math.Max(0, math.Min(player.LoanInterest-amount, 0.90))
+		player.LoanInterest = math.Max(MaxInterest, math.Min(player.LoanInterest-amount, 1))
 	}
 }
 
