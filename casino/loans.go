@@ -33,8 +33,8 @@ func RepayLoan(player *Player, amount int64) int8 {
 }
 
 func TryIncreaseLoanInterest(player *Player, amount float64) {
-	if player.Loan <= 0 {
-		player.LoanInterest = math.Max(0, math.Min(player.LoanInterest-amount, 0.95))
+	if player.Loan > 0 {
+		player.LoanInterest = math.Max(0, math.Min(player.LoanInterest-amount, 0.90))
 	}
 }
 
