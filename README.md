@@ -11,6 +11,10 @@
 <p align="center">
   A Discord bot that adds a casino to your server
   <br />
+  This was intended as a test to play around with Go, and is not suitable for a use in a real server.
+  <br />
+  Because it was just a test, there are no plans to develop it further.
+  <br />
   <br />
   <a href="https://github.com/Insprill/discord-casino/issues">Report Bugs</a>
   ·
